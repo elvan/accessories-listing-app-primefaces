@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<h:head>
+    <title>House of Donatello - Accessories Listing</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <h:outputStylesheet name="css/styles.css" />
+</h:head>
+
+<h:body>
+    <div class="container">
+        <div class="header">
+            <h1>House of Donatello</h1>
+            <h2>Accessories Listing</h2>
+        </div>
+
+        <h:form id="accessoryForm">
+            <!-- Filter Panel -->
+            <p:panel header="Filter Options" toggleable="true" collapsed="false" styleClass="filter-panel">
+                <h:panelGrid columns="3" cellpadding="5">
+                    <p:outputLabel for="codeFilter" value="Code:" />
+                    <p:inputText id="codeFilter" value="#{accessoryBean.codeFilter}" />
+                    <p:message for="codeFilter" />
+
+                    <p:outputLabel for="nameFilter" value="Name:" />
+                    <p:inputText id="nameFilter" value="#{accessoryBean.nameFilter}" />
+                    <p:message for="nameFilter" />
+
+                    <p:outputLabel for="categoryFilter" value="Category:" />
+                    <p:selectOneMenu id="categoryFilter" value="#{accessoryBean.categoryFilter}">
+                        <f:selectItem itemLabel="Select Category" itemValue="" />
+                        <f:selectItems value="#{accessoryBean.categories}" var="category" 
+                                      itemLabel="#{category}" itemValue="#{category}" />
+                    </p:selectOneMenu>
+                    <p:message for="categoryFilter" />
+
+                    <p:outputLabel for="minPriceFilter" value="Min Price:" />
+                    <p:inputNumber id="minPriceFilter" value="#{accessoryBean.minPriceFilter}" 
+                                  symbol="Rp. " symbolPosition="p" decimalSeparator="," 
+                                  thousandSeparator="." />
+                    <p:message for="minPriceFilter" />
+
+                    <p:outputLabel for="maxPriceFilter" value="Max Price:" />
+                    <p:inputNumber id="maxPriceFilter" value="#{accessoryBean.maxPriceFilter}" 
+                                  symbol="Rp. " symbolPosition="p" decimalSeparator="," 
+                                  thousandSeparator="." />
+                    <p:message for="maxPriceFilter" />
+
+                    <p:outputLabel for="supplierFilter" value="Supplier:" />
+                    <p:selectOneMenu id="supplierFilter" value="#{accessoryBean.supplierFilter}">
+                        <f:selectItem itemLabel="Select Supplier" itemValue="" />
+                        <f:selectItems value="#{accessoryBean.suppliers}" var="supplier" 
+                                      itemLabel="#{supplier}" itemValue="#{supplier}" />
+                    </p:selectOneMenu>
+                    <p:message for="supplierFilter" />
+                </h:panelGrid>
+
+                <f:facet name="footer">
+                    <div class="filter-buttons">
+                        <p:commandButton value="Apply Filter" icon="pi pi-filter" 
+                                       action="#{accessoryBean.applyFilters}" update="accessoriesTable" />
+                        <p:commandButton value="Reset" icon="pi pi-times" 
+                                       action="#{accessoryBean.resetFilters}" update="accessoriesTable" 
+                                       styleClass="ui-button-secondary" />
+                    </div>
+                </f:facet>
+            </p:panel>
+
+            <!-- Data Table -->
+            <p:dataTable id="accessoriesTable" var="accessory" value="#{accessoryBean.filteredAccessories}"
+                        emptyMessage="No accessories found with the given criteria"
+                        paginator="true" rows="10" rowsPerPageTemplate="5,10,15"
+                        paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                        currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
+                        styleClass="accessories-table">
+
+                <f:facet name="header">
+                    Accessories List
+                </f:facet>
+
+                <p:column headerText="Code" sortBy="#{accessory.id}" filterBy="#{accessory.id}" filterMatchMode="contains">
+                    <h:outputText value="#{accessory.id}" />
+                </p:column>
+
+                <p:column headerText="Name" sortBy="#{accessory.name}" filterBy="#{accessory.name}" filterMatchMode="contains">
+                    <h:outputText value="#{accessory.name}" />
+                </p:column>
+
+                <p:column headerText="Category" sortBy="#{accessory.categoryName}" filterBy="#{accessory.categoryName}" filterMatchMode="contains">
+                    <h:outputText value="#{accessory.categoryName}" />
+                </p:column>
+
+                <p:column headerText="Status" sortBy="#{accessory.status}">
+                    <h:outputText value="#{accessory.status}" />
+                </p:column>
+
+                <p:column headerText="Price" sortBy="#{accessory.price}">
+                    <h:outputText value="#{accessory.price}">
+                        <f:convertNumber type="currency" currencySymbol="Rp. " locale="id_ID" />
+                    </h:outputText>
+                </p:column>
+
+                <p:column headerText="Discount" sortBy="#{accessory.discount}">
+                    <h:outputText value="#{accessory.discount}">
+                        <f:convertNumber type="currency" currencySymbol="Rp. " locale="id_ID" />
+                    </h:outputText>
+                </p:column>
+
+                <p:column headerText="Discount %" sortBy="#{accessory.discountPercentage}">
+                    <h:outputText value="#{accessory.discountPercentage}">
+                        <f:convertNumber type="percent" />
+                    </h:outputText>
+                </p:column>
+
+                <p:column headerText="Supplier" sortBy="#{accessory.supplier}">
+                    <h:outputText value="#{accessory.supplier}" />
+                </p:column>
+
+                <p:column headerText="Brand" sortBy="#{accessory.brand}">
+                    <h:outputText value="#{accessory.brand}" />
+                </p:column>
+
+                <p:column headerText="Color" sortBy="#{accessory.color}">
+                    <h:outputText value="#{accessory.color}" />
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </div>
+</h:body>
+</html>
