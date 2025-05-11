@@ -36,13 +36,37 @@
             <version>${primefaces.version}</version>
         </dependency>
 
-        <!-- Using custom CSS styling instead of external themes -->
+        <!-- Bootstrap -->
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>bootstrap</artifactId>
+            <version>4.6.1</version>
+        </dependency>
+
+        <!-- Font Awesome -->
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>font-awesome</artifactId>
+            <version>5.15.4</version>
+        </dependency>
 
         <!-- MySQL Connector -->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>8.0.28</version>
+        </dependency>
+
+        <!-- Flyway Database Migrations -->
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
+            <version>8.5.13</version>
+        </dependency>
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-mysql</artifactId>
+            <version>8.5.13</version>
         </dependency>
 
         <!-- Apache Commons DBCP2 for connection pooling -->
@@ -109,7 +133,7 @@
                 <artifactId>payara-micro-maven-plugin</artifactId>
                 <version>1.4.0</version>
                 <configuration>
-                    <payaraVersion>5.2021.5</payaraVersion>
+                    <payaraVersion>5.2022.2</payaraVersion>
                     <deployWar>true</deployWar>
                     <contextRoot>/accessories-listing-app</contextRoot>
                     <autoDeployArtifact>true</autoDeployArtifact>
@@ -122,6 +146,28 @@
                         </artifactItem>
                     </deployArtifacts>
                 </configuration>
+            </plugin>
+            <!-- Flyway Maven Plugin for database migrations -->
+            <plugin>
+                <groupId>org.flywaydb</groupId>
+                <artifactId>flyway-maven-plugin</artifactId>
+                <version>8.5.13</version>
+                <configuration>
+                    <url>jdbc:mysql://localhost:3306/accessories_listing_app_primefaces?useSSL=false&amp;serverTimezone=UTC</url>
+                    <user>root</user>
+                    <password>root1234</password>
+                    <locations>
+                        <location>filesystem:src/main/resources/db/migration</location>
+                    </locations>
+                    <baselineOnMigrate>true</baselineOnMigrate>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>mysql</groupId>
+                        <artifactId>mysql-connector-java</artifactId>
+                        <version>8.0.28</version>
+                    </dependency>
+                </dependencies>
             </plugin>
         </plugins>
     </build>
