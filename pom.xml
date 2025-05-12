@@ -16,9 +16,18 @@
         <java.version>1.8</java.version>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <primefaces.version>8.0</primefaces.version>
+        <primefaces.version>13.0.10</primefaces.version>
         <jsf.version>2.2.20</jsf.version>
     </properties>
+
+    <!-- Repositories for PrimeFaces Themes -->
+    <repositories>
+        <repository>
+            <id>primefaces-maven-repository</id>
+            <name>PrimeFaces Maven Repository</name>
+            <url>https://repository.primefaces.org</url>
+        </repository>
+    </repositories>
 
     <dependencies>
         <!-- JavaEE API -->
@@ -35,6 +44,8 @@
             <artifactId>primefaces</artifactId>
             <version>${primefaces.version}</version>
         </dependency>
+
+        <!-- Using custom styling instead of PrimeFaces themes -->
 
         <!-- Bootstrap -->
         <dependency>

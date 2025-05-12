@@ -3,129 +3,155 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+>
 
 <h:head>
-    <title>House of Donatello - Accessories Listing</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <h:outputStylesheet name="css/styles.css" />
+    <title>Accessories Listing</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <h:outputStylesheet name="css/styles.css"/>
 </h:head>
 
 <h:body>
     <div class="container">
         <div class="header">
-            <h1>House of Donatello</h1>
-            <h2>Accessories Listing</h2>
+            <h1>Accessories Listing</h1>
         </div>
 
         <h:form id="accessoryForm">
             <!-- Filter Panel -->
             <p:panel header="Filter Options" toggleable="true" collapsed="false" styleClass="filter-panel">
                 <h:panelGrid columns="3" cellpadding="5">
-                    <p:outputLabel for="codeFilter" value="Code:" />
-                    <p:inputText id="codeFilter" value="#{accessoryBean.codeFilter}" />
-                    <p:message for="codeFilter" />
+                    <p:outputLabel for="codeFilter" value="Kode Aksesoris:"/>
+                    <p:inputText id="codeFilter" value="#{accessoryBean.codeFilter}" placeholder="Enter code"/>
+                    <p:message for="codeFilter"/>
 
-                    <p:outputLabel for="nameFilter" value="Name:" />
-                    <p:inputText id="nameFilter" value="#{accessoryBean.nameFilter}" />
-                    <p:message for="nameFilter" />
+                    <p:outputLabel for="nameFilter" value="Nama Aksesoris:"/>
+                    <p:inputText id="nameFilter" value="#{accessoryBean.nameFilter}" placeholder="Enter name"/>
+                    <p:message for="nameFilter"/>
 
-                    <p:outputLabel for="categoryFilter" value="Category:" />
+                    <p:outputLabel for="categoryFilter" value="Kategori Aksesoris:"/>
                     <p:selectOneMenu id="categoryFilter" value="#{accessoryBean.categoryFilter}">
-                        <f:selectItem itemLabel="Select Category" itemValue="" />
-                        <f:selectItems value="#{accessoryBean.categories}" var="category" 
-                                      itemLabel="#{category}" itemValue="#{category}" />
+                        <f:selectItem itemLabel="Select Category" itemValue=""/>
+                        <f:selectItems value="#{accessoryBean.categories}" var="category"
+                                       itemLabel="#{category}" itemValue="#{category}"/>
                     </p:selectOneMenu>
-                    <p:message for="categoryFilter" />
+                    <p:message for="categoryFilter"/>
 
-                    <p:outputLabel for="minPriceFilter" value="Min Price:" />
-                    <p:inputNumber id="minPriceFilter" value="#{accessoryBean.minPriceFilter}" 
-                                  symbol="Rp. " symbolPosition="p" decimalSeparator="," 
-                                  thousandSeparator="." />
-                    <p:message for="minPriceFilter" />
+                    <p:outputLabel for="startDateFilter" value="Tanggal Aksesoris dibuat:"/>
+                    <p:datePicker id="startDateFilter" value="#{accessoryBean.startDateFilter}" pattern="dd-MM-yyyy"
+                                  showIcon="true" placeholder="From date"/>
+                    <p:message for="startDateFilter"/>
 
-                    <p:outputLabel for="maxPriceFilter" value="Max Price:" />
-                    <p:inputNumber id="maxPriceFilter" value="#{accessoryBean.maxPriceFilter}" 
-                                  symbol="Rp. " symbolPosition="p" decimalSeparator="," 
-                                  thousandSeparator="." />
-                    <p:message for="maxPriceFilter" />
+                    <p:outputLabel for="endDateFilter" value="sampai"/>
+                    <p:datePicker id="endDateFilter" value="#{accessoryBean.endDateFilter}" pattern="dd-MM-yyyy"
+                                  showIcon="true" placeholder="To date"/>
+                    <p:message for="endDateFilter"/>
 
-                    <p:outputLabel for="supplierFilter" value="Supplier:" />
+                    <p:outputLabel for="supplierFilter" value="Supplier:"/>
                     <p:selectOneMenu id="supplierFilter" value="#{accessoryBean.supplierFilter}">
-                        <f:selectItem itemLabel="Select Supplier" itemValue="" />
-                        <f:selectItems value="#{accessoryBean.suppliers}" var="supplier" 
-                                      itemLabel="#{supplier}" itemValue="#{supplier}" />
+                        <f:selectItem itemLabel="Select Supplier" itemValue=""/>
+                        <f:selectItems value="#{accessoryBean.suppliersWithNames}" var="supplier"
+                                       itemLabel="#{supplier[1]}" itemValue="#{supplier[0]}"/>
                     </p:selectOneMenu>
-                    <p:message for="supplierFilter" />
+                    <p:message for="supplierFilter"/>
+
+                    <p:outputLabel for="minPriceFilter" value="Rentang Harga Aksesoris dari:"/>
+                    <p:inputNumber id="minPriceFilter" value="#{accessoryBean.minPriceFilter}"
+                                   symbol="Rp. " symbolPosition="p" decimalSeparator=","
+                                   thousandSeparator="." placeholder="Minimum price"/>
+                    <p:message for="minPriceFilter"/>
+
+                    <p:outputLabel for="maxPriceFilter" value="sampai"/>
+                    <p:inputNumber id="maxPriceFilter" value="#{accessoryBean.maxPriceFilter}"
+                                   symbol="Rp. " symbolPosition="p" decimalSeparator=","
+                                   thousandSeparator="." placeholder="Maximum price"/>
+                    <p:message for="maxPriceFilter"/>
+
+                    <p:outputLabel for="discountFilter" value="Aksesoris sedang diskon:"/>
+                    <p:selectBooleanCheckbox id="discountFilter" value="#{accessoryBean.discountFilter}"/>
+                    <p:message for="discountFilter"/>
+
+                    <p:outputLabel for="stockFilter" value="Aksesoris ada stok:"/>
+                    <p:selectBooleanCheckbox id="stockFilter" value="#{accessoryBean.stockFilter}"/>
+                    <p:message for="stockFilter"/>
                 </h:panelGrid>
 
                 <f:facet name="footer">
                     <div class="filter-buttons">
-                        <p:commandButton value="Apply Filter" icon="pi pi-filter" 
-                                       action="#{accessoryBean.applyFilters}" update="accessoriesTable" />
-                        <p:commandButton value="Reset" icon="pi pi-times" 
-                                       action="#{accessoryBean.resetFilters}" update="accessoriesTable" 
-                                       styleClass="ui-button-secondary" />
+                        <p:commandButton value="Apply Filter" icon="pi pi-filter"
+                                         action="#{accessoryBean.applyFilters}" update="accessoriesTable"/>
+                        <p:commandButton value="Reset" icon="pi pi-times"
+                                         action="#{accessoryBean.resetFilters}" update="accessoriesTable accessoryForm"
+                                         styleClass="ui-button-secondary"/>
                     </div>
                 </f:facet>
             </p:panel>
 
             <!-- Data Table -->
             <p:dataTable id="accessoriesTable" var="accessory" value="#{accessoryBean.filteredAccessories}"
-                        emptyMessage="No accessories found with the given criteria"
-                        paginator="true" rows="10" rowsPerPageTemplate="5,10,15"
-                        paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                        currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
-                        styleClass="accessories-table">
+                         emptyMessage="No accessories found with the given criteria"
+                         paginator="true" rows="10" rowsPerPageTemplate="5,10,15"
+                         paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
+                         styleClass="accessories-table">
 
                 <f:facet name="header">
                     Accessories List
                 </f:facet>
 
-                <p:column headerText="Code" sortBy="#{accessory.id}" filterBy="#{accessory.id}" filterMatchMode="contains">
-                    <h:outputText value="#{accessory.id}" />
+                <p:column headerText="Tanggal Dibuat" sortBy="#{accessory.createdDate}">
+                    <h:outputText value="#{accessory.createdDate}">
+                        <f:convertDateTime pattern="dd-MM-yyyy HH:mm:ss"/>
+                    </h:outputText>
                 </p:column>
 
-                <p:column headerText="Name" sortBy="#{accessory.name}" filterBy="#{accessory.name}" filterMatchMode="contains">
-                    <h:outputText value="#{accessory.name}" />
+                <p:column headerText="Kode Aksesoris" sortBy="#{accessory.code}" filterBy="#{accessory.code}"
+                          filterMatchMode="contains">
+                    <h:outputText value="#{accessory.code}"/>
                 </p:column>
 
-                <p:column headerText="Category" sortBy="#{accessory.categoryName}" filterBy="#{accessory.categoryName}" filterMatchMode="contains">
-                    <h:outputText value="#{accessory.categoryName}" />
+                <p:column headerText="Nama Aksesoris" sortBy="#{accessory.name}" filterBy="#{accessory.name}"
+                          filterMatchMode="contains">
+                    <h:outputText value="#{accessory.name}"/>
                 </p:column>
 
-                <p:column headerText="Status" sortBy="#{accessory.status}">
-                    <h:outputText value="#{accessory.status}" />
+                <p:column headerText="Kategori Aksesoris" sortBy="#{accessory.categoryName}"
+                          filterBy="#{accessory.categoryName}" filterMatchMode="contains">
+                    <h:outputText value="#{accessory.categoryName}"/>
                 </p:column>
 
-                <p:column headerText="Price" sortBy="#{accessory.price}">
+                <p:column headerText="Satuan Aksesoris" sortBy="#{accessory.satuan}">
+                    <h:outputText value="#{accessory.satuan}"/>
+                </p:column>
+
+                <p:column headerText="Harga Jual Aksesoris" sortBy="#{accessory.price}">
                     <h:outputText value="#{accessory.price}">
-                        <f:convertNumber type="currency" currencySymbol="Rp. " locale="id_ID" />
+                        <f:convertNumber type="currency" currencySymbol="Rp. " locale="id_ID"/>
                     </h:outputText>
                 </p:column>
 
-                <p:column headerText="Discount" sortBy="#{accessory.discount}">
-                    <h:outputText value="#{accessory.discount}">
-                        <f:convertNumber type="currency" currencySymbol="Rp. " locale="id_ID" />
+                <p:column headerText="Diskon %" sortBy="#{accessory.discountPercent}">
+                    <h:outputText value="#{accessory.discountPercent}">
+                        <f:convertNumber type="percent"/>
                     </h:outputText>
                 </p:column>
 
-                <p:column headerText="Discount %" sortBy="#{accessory.discountPercentage}">
-                    <h:outputText value="#{accessory.discountPercentage}">
-                        <f:convertNumber type="percent" />
+                <p:column headerText="Diskon IDR" sortBy="#{accessory.discountIdr}">
+                    <h:outputText value="#{accessory.discountIdr}">
+                        <f:convertNumber type="currency" currencySymbol="Rp. " locale="id_ID"/>
                     </h:outputText>
                 </p:column>
 
-                <p:column headerText="Supplier" sortBy="#{accessory.supplier}">
-                    <h:outputText value="#{accessory.supplier}" />
+                <p:column headerText="Supplier" sortBy="#{accessory.supplierName}">
+                    <h:outputText value="#{accessory.supplierName}"/>
                 </p:column>
 
                 <p:column headerText="Brand" sortBy="#{accessory.brand}">
-                    <h:outputText value="#{accessory.brand}" />
+                    <h:outputText value="#{accessory.brand}"/>
                 </p:column>
 
                 <p:column headerText="Color" sortBy="#{accessory.color}">
-                    <h:outputText value="#{accessory.color}" />
+                    <h:outputText value="#{accessory.color}"/>
                 </p:column>
             </p:dataTable>
         </h:form>
